@@ -1,21 +1,22 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+const Part = (props) =>{
+  return(
+    <p>
+      {props.part} {props.exercices}
+    </p>
+    )
+}
+
 const Header = (props)=>(<h1>{props.course}</h1>)
 
 const Content =(props) =>{
   return(
     <>
-     
-     <p>
-        {props.part1} {props.exercises1}
-      </p>
-      <p>
-        {props.part2} {props.exercises2}
-      </p>
-      <p>
-        {props.part3} {props.exercises3}
-      </p>
+      <Part part={props.part1} exercices={props.exercises1} />
+      <Part part={props.part2} exercices={props.exercises2} />
+      <Part part={props.part3} exercices={props.exercises3} />
     </>
   )
 }
