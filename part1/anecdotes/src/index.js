@@ -1,29 +1,46 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+
+const Heading = ({text})=> <h2>{text}</h2>
+
 const App = ({anecdotes}) => {
   const [selected, setSelected] = useState(0)
-    
   const [votes, setVote] = useState( Array.from(Array(anecdotes.length), () => 0))
-
   const handleAnecdote = () => setSelected(Math.floor(Math.random() * anecdotes.length))
+
 
   const handleVote =()=>{
     const tempVotes = [...votes];
-    console.log(tempVotes)
-    console.log(selected)
-
     tempVotes[selected] += 1;
     setVote(tempVotes);
-    console.log(tempVotes)
-  };
+  }
+
+  const getMaxVotes = votes => {
+      let maxVotes = 0;
+      let maxIndex = 0;
+      for (let i = 0; i < votes.length; i++) {
+        if (votes[i] > maxVotes) {
+          maxVotes = votes[i];
+          maxIndex = i;
+        }
+      }
+      // console.log(maxVotes, maxIndex)
+      return [maxVotes, maxIndex];
+    }
+
+  const [maxVotes, maxIndex] = getMaxVotes(votes);
 
 
   return (
+    
     <div>
-      <p>  {anecdotes[selected]}</p>
-      <button onClick={handleAnecdote}> next anecdote</button>
+      <Heading text="Anecdote of the day"/>
+      <p>  {anecdotes[selected]} {votes[selected]} votes</p>
       <button onClick={handleVote}> Vote</button>
+      <button onClick={handleAnecdote}> next anecdote</button>
+      <Heading text="Anecdote with most votes"/>
+      <p> {anecdotes[maxIndex]} {maxVotes} votes</p>
     </div>
   )
 }
