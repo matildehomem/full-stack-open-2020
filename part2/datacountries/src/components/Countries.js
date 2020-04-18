@@ -1,4 +1,5 @@
 import React from 'react';
+import CountryWeather from './CountryWeather'
 
 function Countries ({ countries, changeCountryFiltered }) {
     
@@ -22,7 +23,7 @@ function Countries ({ countries, changeCountryFiltered }) {
         <h3>Languages</h3>
         <ul>
           {countries[0].languages.map((language) => (
-            <li>{language.name}</li>
+            <li key={language.name}>{language.name}</li>
           ))}
         </ul>
 
@@ -31,6 +32,7 @@ function Countries ({ countries, changeCountryFiltered }) {
           alt={countries[0].name}
           width="150px"
         />
+        <CountryWeather capital={countries[0].capital}/>
       </div>
     );
   } else return null
