@@ -26,20 +26,40 @@ const App = () => {
     e.preventDefault();
 
     const duplicateName = persons.filter((person) => person.name === newName);
-    if (duplicateName.length) {
-      alert(`${newName} is already added to phonebook`);
-      return;
-    }
-    const newPerson = {
-      name: newName,
-      number: newNumber,
-    };
 
-    phonebookService.create(newPerson).then((res) => {
-      setPersons(persons.concat(res));
-      setNewName('');
-      setNewNumber('');
-    });
+    if (duplicateName.length) {
+      const personToUpdate = duplicateName[0];
+      const answer = window.confirm(
+        `${personToUpdate.name} is already added to phonebook, replace the old number with the new one?`,
+      );
+
+      if (answer) {
+        personToUpdate.number = newNumber;
+
+        phonebookService
+          .updatePerson(personToUpdate)
+          .then(res => {
+            setPersons(
+              persons.map(person => {
+                return person.id === res.id ? res : person;
+              }
+              )
+          )
+      })
+      .catch(err => console.log(err))
+    }
+    } else {
+      const newPerson = {
+        name: newName,
+        number: newNumber,
+      };
+
+      phonebookService.create(newPerson).then((res) => {
+        setPersons(persons.concat(res));
+      });
+    }
+    setNewName('');
+    setNewNumber('');
   };
 
   const handleFilter = (e) => {
@@ -54,10 +74,11 @@ const App = () => {
 
   const handleDelete = (id) => {
     const newPersons = persons.filter((person) => id !== person.id);
-    const personToDelete = persons.find(person => person.id === id)
-    
-    const answer = window.confirm(`Delete ${personToDelete.name}?`)
-    if(answer) phonebookService.deletePerson(id).then((res) => setPersons(newPersons));
+    const personToDelete = persons.find((person) => person.id === id);
+
+    const answer = window.confirm(`Delete ${personToDelete.name}?`);
+    if (answer)
+      phonebookService.deletePerson(id).then((res) => setPersons(newPersons));
   };
 
   return (
@@ -80,3 +101,5 @@ const App = () => {
 };
 
 export default App;
+
+
