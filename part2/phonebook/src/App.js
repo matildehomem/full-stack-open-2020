@@ -4,8 +4,7 @@ import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
 
-import phonebookService from './services/phonebook'
-
+import phonebookService from './services/phonebook';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -13,13 +12,9 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('');
   const [nameToFilter, setNameToFilter] = useState('');
 
-
-  useEffect(()=>{
-    phonebookService
-    .getAll()
-    .then(res => setPersons(res))
-
-  }, [])
+  useEffect(() => {
+    phonebookService.getAll().then((res) => setPersons(res));
+  }, []);
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -40,18 +35,13 @@ const App = () => {
       number: newNumber,
     };
 
-    phonebookService
-    .create(newPerson)
-    .then(res => {
-
-    setPersons(persons.concat(res));
-    setNewName('');
-    setNewNumber('');
-    }
-    )
+    phonebookService.create(newPerson).then((res) => {
+      setPersons(persons.concat(res));
+      setNewName('');
+      setNewNumber('');
+    });
   };
 
-  
   const handleFilter = (e) => {
     setNameToFilter(e.target.value);
   };
@@ -61,6 +51,14 @@ const App = () => {
         person.name.toLowerCase().includes(nameToFilter.toLowerCase()),
       )
     : persons;
+
+  const handleDelete = (id) => {
+    const newPersons = persons.filter((person) => id !== person.id);
+    const personToDelete = persons.find(person => person.id === id)
+    
+    const answer = window.confirm(`Delete ${personToDelete.name}?`)
+    if(answer) phonebookService.deletePerson(id).then((res) => setPersons(newPersons));
+  };
 
   return (
     <div>
@@ -76,7 +74,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Persons personsFiltered={personsFiltered} />
+      <Persons personsFiltered={personsFiltered} deletePerson={handleDelete} />
     </div>
   );
 };
