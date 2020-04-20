@@ -3,14 +3,18 @@ import React, { useState, useEffect } from 'react';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import Persons from './components/Persons';
+import Notification from './components/Notification';
 
 import phonebookService from './services/phonebook';
+
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [nameToFilter, setNameToFilter] = useState('');
+  const [notification, setNotification] = useState('')
+
 
   useEffect(() => {
     phonebookService.getAll().then((res) => setPersons(res));
@@ -42,24 +46,34 @@ const App = () => {
             setPersons(
               persons.map(person => {
                 return person.id === res.id ? res : person;
-              }
-              )
+              })
           )
+          setNotification(`Note was already removed from server`)
       })
-      .catch(err => console.log(err))
-    }
+      .catch(err => {
+        setNotification(`Note  was already removed from server` )
+      
+      })
+      }
     } else {
       const newPerson = {
         name: newName,
         number: newNumber,
       };
 
+
       phonebookService.create(newPerson).then((res) => {
         setPersons(persons.concat(res));
-      });
+        setNotification('Added person')
+      })
+      .catch(err => setNotification(err))
     }
+  
     setNewName('');
     setNewNumber('');
+    setTimeout(() => {
+      setNotification('')
+    }, 5000);
   };
 
   const handleFilter = (e) => {
@@ -84,6 +98,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification notification={notification} />
+
       <Filter value={nameToFilter} onChange={handleFilter} />
       <h2>Add a new</h2>
       <PersonForm
