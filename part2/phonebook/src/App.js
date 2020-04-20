@@ -7,14 +7,13 @@ import Notification from './components/Notification';
 
 import phonebookService from './services/phonebook';
 
-
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [nameToFilter, setNameToFilter] = useState('');
-  const [notification, setNotification] = useState('')
-
+  const [notification, setNotification] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     phonebookService.getAll().then((res) => setPersons(res));
@@ -42,18 +41,24 @@ const App = () => {
 
         phonebookService
           .updatePerson(personToUpdate)
-          .then(res => {
+          .then((res) => {
             setPersons(
-              persons.map(person => {
+              persons.map((person) => {
                 return person.id === res.id ? res : person;
+              }),
+            );
+            setNotification(`Updated ${personToUpdate.name} number`);
+          })
+          .catch((err) => {
+            setPersons(
+              persons.filter(person => {
+                return person.id !== personToUpdate.id;
               })
-          )
-          setNotification(`Note was already removed from server`)
-      })
-      .catch(err => {
-        setNotification(`Note  was already removed from server` )
-      
-      })
+            );
+            setErrorMessage(
+              `Information of ${personToUpdate.name} has already been removed from the server`,
+            );
+          });
       }
     } else {
       const newPerson = {
@@ -61,18 +66,22 @@ const App = () => {
         number: newNumber,
       };
 
-
-      phonebookService.create(newPerson).then((res) => {
-        setPersons(persons.concat(res));
-        setNotification('Added person')
-      })
-      .catch(err => setNotification(err))
+      phonebookService
+        .create(newPerson)
+        .then((res) => {
+          setPersons(persons.concat(res));
+          setNotification(`Added ${newPerson.name}`);
+        })
+        .catch((err) => {
+          console.log(err)
+        });
     }
-  
+
     setNewName('');
     setNewNumber('');
     setTimeout(() => {
-      setNotification('')
+      setErrorMessage('');
+      setNotification('');
     }, 5000);
   };
 
@@ -98,7 +107,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification notification={notification} />
+
+      {errorMessage ? <Notification notification={errorMessage} classError={true} /> : null}
+      {notification ? <Notification notification={notification} /> : null}
 
       <Filter value={nameToFilter} onChange={handleFilter} />
       <h2>Add a new</h2>
@@ -117,5 +128,3 @@ const App = () => {
 };
 
 export default App;
-
-
