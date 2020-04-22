@@ -3,6 +3,5 @@ Content-Type: application/json
 
 {
     "content": "VS Code test client",
-    "important": true,
-    "erro": true
+    "important": true
 }
