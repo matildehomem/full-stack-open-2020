@@ -10,10 +10,10 @@ export default function PersonForm({
   return (
     <form>
       <div>
-        name: <input value={newName} onChange={onChangeName} />
+        <input value={newName} onChange={onChangeName} placeholder="Name"/>
       </div>
       <div>
-        number: <input value={newNumber} onChange={onChangeNumber} />
+        <input value={newNumber} onChange={onChangeNumber} placeholder="Number"/>
       </div>
       <div>
         <button type="submit" onClick={onClick}>

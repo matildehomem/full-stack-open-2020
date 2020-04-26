@@ -1,3 +1,19 @@
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
+  background-color: aquamarine;
+
+  font-family: "Ubuntu", sans-serif;
+
+}
+
 h1 {
   color: green;
   font-style: italic;
@@ -26,4 +42,94 @@ h1 {
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
+}
+
+input {
+  box-shadow: 0px 1px 10px -4px rgba(0, 0, 0, 0.3);
+  border-radius: 50px;
+  line-height: 2.2rem;
+  border: 0;
+  padding: 0 20px;
+  margin-bottom: 10px;
+  outline: none;
+  width: 200px;
+}
+
+input ::placeholder {
+  color: gray;
+}
+
+button {
+  width: 100px;
+  border-radius: 50px;
+  border: none;
+  height: 40px;
+  margin-top: 10px;
+  background-color: orange;
+  color: antiquewhite;
+  box-shadow: 0px 1px 10px -4px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+}
+button:hover{
+  box-shadow: none;
+  background-color: tomato;
+}
+
+h2{
+  color: teal;
+  font-weight: 100;
+  margin-bottom: 60px;
+  margin-top: 30px;
+}
+.wrapper{
+  display: flex;
+}
+.wrapper > div{
+  width: 50%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 0 50px;
+}
+
+.wrapper > div:first-of-type{
+  background: wheat;
+    height: 100vh;
+}
+.wrapper > div:first-of-type h2{
+  color: tomato;
+}
+
+ul li{
+  box-shadow: 0px 1px 10px -4px rgba(0, 0, 0, 0.3);
+  list-style: none;
+  background-color: aliceblue;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  padding: 0 20px;
+  color: darkslategrey;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+}
+ul{
+  padding: 0;
+}
+
+ul li button{
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  cursor: pointer;
+  background-color: teal;
+
+}
+ul li button:hover{
+  box-shadow: none;
+  background-color: tomato;
+  transition: all .3s;
 }

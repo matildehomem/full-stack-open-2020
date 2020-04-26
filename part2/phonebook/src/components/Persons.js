@@ -3,8 +3,8 @@ import React from 'react';
 const Persons = ({ personsFiltered, deletePerson }) =>
   personsFiltered.map((person, i) => (
     <li key={i}>
-      {person.name} {person.number}
-      <button onClick={()=>deletePerson(person.id)}>delete</button>
+      <p>{person.name} <br /><small>{person.number}</small></p>
+      <button onClick={()=>deletePerson(person.id)}>X</button>
     </li>
   ));
 

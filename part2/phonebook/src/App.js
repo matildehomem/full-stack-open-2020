@@ -51,9 +51,9 @@ const App = () => {
           })
           .catch((err) => {
             setPersons(
-              persons.filter(person => {
+              persons.filter((person) => {
                 return person.id !== personToUpdate.id;
-              })
+              }),
             );
             setErrorMessage(
               `Information of ${personToUpdate.name} has already been removed from the server`,
@@ -73,7 +73,7 @@ const App = () => {
           setNotification(`Added ${newPerson.name}`);
         })
         .catch((err) => {
-          console.log(err)
+          setErrorMessage(err.response.data.error);
         });
     }
 
@@ -105,13 +105,9 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h2>Phonebook</h2>
+    <div className="wrapper">
+      <div>
 
-      {errorMessage ? <Notification notification={errorMessage} classError={true} /> : null}
-      {notification ? <Notification notification={notification} /> : null}
-
-      <Filter value={nameToFilter} onChange={handleFilter} />
       <h2>Add a new</h2>
       <PersonForm
         newName={newName}
@@ -119,10 +115,22 @@ const App = () => {
         onChangeName={handleNameChange}
         onChangeNumber={handleNumberChange}
         onClick={handleSubmit}
-      />
+        />
+        </div>
+        <div>
 
-      <h2>Numbers</h2>
+      <h2>Phonebook</h2>
+
+      {errorMessage ? (
+        <Notification notification={errorMessage} classError={true} />
+        ) : null}
+      {notification ? <Notification notification={notification} /> : null}
+
+      <Filter value={nameToFilter} onChange={handleFilter} />
+      <ul>
       <Persons personsFiltered={personsFiltered} deletePerson={handleDelete} />
+      </ul>
+        </div>
     </div>
   );
 };
