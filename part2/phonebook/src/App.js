@@ -45,7 +45,7 @@ const App = () => {
             setPersons(
               persons.map((person) => {
                 return person.id === res.id ? res : person;
-              }),
+              })
             );
             setNotification(`Updated ${personToUpdate.name} number`);
           })
@@ -72,7 +72,7 @@ const App = () => {
           setPersons(persons.concat(res));
           setNotification(`Added ${newPerson.name}`);
         })
-        .catch((err) => {
+        .catch((err) => {          
           setErrorMessage(err.response.data.error);
         });
     }

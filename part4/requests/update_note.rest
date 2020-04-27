@@ -1,0 +1,7 @@
+PUT http://localhost:3001/api/notes/5ea07eaa4c767d2dcc44b2ce
+Content-Type: application/json
+
+{
+    "content": "VS Code test client novafaaa",
+    "important": false
+}
