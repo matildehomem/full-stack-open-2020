@@ -1,9 +1,9 @@
-POST http://localhost:3001/api/blogs
+PUT http://localhost:3001/api/blogs/5f0f0d8cc0aad07358f218f5
 Content-Type: application/json
 
 {
     "title": "titulo 2",
     "author": "autor 2",
     "url": "www.sapo.pt", 
-    "likes": 24
+    "likes": 28
 }
